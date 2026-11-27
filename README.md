@@ -67,6 +67,7 @@ interactiva de la API en <http://127.0.0.1:8000/docs>.
 | GET | `/` | Página principal con el formulario y el listado |
 | POST | `/notas` | Crea una nota con el texto enviado en el formulario |
 | POST | `/notas/{id}/editar` | Actualiza el texto de una nota existente |
+| POST | `/notas/{id}/eliminar` | Elimina una nota existente |
 | GET | `/salud` | Verificación de estado del servicio |
 
 ## Pruebas
