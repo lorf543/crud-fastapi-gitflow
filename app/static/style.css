@@ -93,6 +93,19 @@ button:hover {
   background: var(--primario-oscuro);
 }
 
+button.peligro {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--peligro);
+  border: 1px solid #fecaca;
+}
+
+button.peligro:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
 button:focus-visible {
   outline: 3px solid rgba(37, 99, 235, 0.35);
   outline-offset: 2px;
