@@ -33,9 +33,31 @@
     {% if items %}
       <ul class="items">
         {% for item in items %}
-          <li class="item">
-            <p class="texto">{{ item.texto }}</p>
-          </li>
+          {% if editar_id == item.id %}
+            <li class="item item-editando">
+              <form class="form-edicion" action="/notas/{{ item.id }}/editar" method="post">
+                <label class="oculto" for="texto-{{ item.id }}">Editar nota</label>
+                <input
+                  id="texto-{{ item.id }}"
+                  type="text"
+                  name="texto"
+                  value="{{ item.texto }}"
+                  maxlength="280"
+                  required
+                  autofocus
+                >
+                <button type="submit">Guardar</button>
+                <a class="boton-secundario" href="/">Cancelar</a>
+              </form>
+            </li>
+          {% else %}
+            <li class="item">
+              <p class="texto">{{ item.texto }}</p>
+              <div class="acciones">
+                <a class="boton-secundario" href="/?editar={{ item.id }}">Editar</a>
+              </div>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     {% else %}
