@@ -1,10 +1,10 @@
 """Aplicación CRUD de notas construida con FastAPI.
 
-Esta primera versión entrega el esqueleto del proyecto: la instancia de
-FastAPI, el montaje de archivos estáticos, el motor de plantillas Jinja2 y
-un endpoint de salud que permite verificar que el servicio está vivo.
+La aplicación usa SQLite como almacenamiento, Jinja2 para renderizar el HTML
+en el servidor y no requiere ningún paso de compilación en el frontend.
 """
 
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, Request
@@ -12,12 +12,24 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from . import crud
+from .database import inicializar_base_datos
+
 BASE_DIR = Path(__file__).resolve().parent
+
+
+@asynccontextmanager
+async def ciclo_de_vida(_: FastAPI):
+    """Prepara la base de datos antes de atender la primera petición."""
+    inicializar_base_datos()
+    yield
+
 
 app = FastAPI(
     title="CRUD de Notas",
     description="Aplicación de ejemplo con FastAPI, SQLite y Jinja2.",
     version="1.0.0",
+    lifespan=ciclo_de_vida,
 )
 
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
@@ -27,11 +39,11 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/", response_class=HTMLResponse)
 def inicio(request: Request) -> HTMLResponse:
-    """Renderiza la página principal de la aplicación."""
+    """Renderiza la página principal con el listado de notas."""
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"items": []},
+        context={"items": crud.listar_notas()},
     )
 
 
