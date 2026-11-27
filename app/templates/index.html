@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+  <header class="cabecera">
+    <h1>Notas rápidas</h1>
+    <p class="subtitulo">
+      Escribe un texto, guárdalo y luego edítalo o elimínalo cuando quieras.
+    </p>
+  </header>
+
+  <section class="lista">
+    <h2>Notas guardadas ({{ items|length }})</h2>
+    {% if items %}
+      <ul class="items">
+        {% for item in items %}
+          <li class="item">
+            <p class="texto">{{ item.texto }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="vacio">Todavía no hay notas guardadas.</p>
+    {% endif %}
+  </section>
+{% endblock %}
