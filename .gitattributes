@@ -1,0 +1,8 @@
+# Normaliza los finales de línea para que el repositorio sea consistente
+# entre Windows, Linux y macOS.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary
