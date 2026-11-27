@@ -58,3 +58,59 @@ def test_no_permite_crear_notas_vacias() -> None:
 
     assert respuesta.status_code == 400
     assert "no puede estar vacío" in respuesta.text
+
+
+def test_el_listado_ofrece_un_enlace_de_edicion() -> None:
+    cliente.post("/notas", data={"texto": "Editable"})
+
+    pagina = cliente.get("/")
+
+    assert "?editar=1" in pagina.text
+
+
+def test_el_formulario_de_edicion_carga_el_texto_actual() -> None:
+    cliente.post("/notas", data={"texto": "Texto viejo"})
+
+    pagina = cliente.get("/?editar=1")
+
+    assert 'action="/notas/1/editar"' in pagina.text
+    assert 'value="Texto viejo"' in pagina.text
+
+
+def test_editar_nota_actualiza_el_listado() -> None:
+    cliente.post("/notas", data={"texto": "Texto viejo"})
+
+    respuesta = cliente.post(
+        "/notas/1/editar",
+        data={"texto": "Texto nuevo"},
+        follow_redirects=False,
+    )
+
+    assert respuesta.status_code == 303
+
+    pagina = cliente.get("/")
+    assert "Texto nuevo" in pagina.text
+    assert "Texto viejo" not in pagina.text
+
+
+def test_editar_nota_inexistente_devuelve_404() -> None:
+    respuesta = cliente.post(
+        "/notas/999/editar",
+        data={"texto": "Sin dueño"},
+        follow_redirects=False,
+    )
+
+    assert respuesta.status_code == 404
+
+
+def test_editar_con_texto_vacio_muestra_error() -> None:
+    cliente.post("/notas", data={"texto": "Algo válido"})
+
+    respuesta = cliente.post(
+        "/notas/1/editar",
+        data={"texto": "   "},
+        follow_redirects=False,
+    )
+
+    assert respuesta.status_code == 400
+    assert "no puede estar vacío" in respuesta.text
