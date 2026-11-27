@@ -65,6 +65,7 @@ interactiva de la API en <http://127.0.0.1:8000/docs>.
 | Método | Ruta | Descripción |
 | --- | --- | --- |
 | GET | `/` | Página principal con el formulario y el listado |
+| POST | `/notas` | Crea una nota con el texto enviado en el formulario |
 | GET | `/salud` | Verificación de estado del servicio |
 
 ## Pruebas

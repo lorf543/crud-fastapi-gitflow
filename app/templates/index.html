@@ -8,8 +8,28 @@
     </p>
   </header>
 
+  <form class="formulario" action="/notas" method="post">
+    <label class="oculto" for="texto">Texto de la nota</label>
+    <input
+      id="texto"
+      type="text"
+      name="texto"
+      value="{{ borrador|default('') }}"
+      placeholder="Escribe algo..."
+      maxlength="280"
+      required
+      autofocus
+    >
+    <button type="submit">Agregar</button>
+  </form>
+
+  {% if error %}
+    <p class="mensaje-error" role="alert">{{ error }}</p>
+  {% endif %}
+
   <section class="lista">
     <h2>Notas guardadas ({{ items|length }})</h2>
+
     {% if items %}
       <ul class="items">
         {% for item in items %}
@@ -19,7 +39,7 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p class="vacio">Todavía no hay notas guardadas.</p>
+      <p class="vacio">Todavía no hay notas. ¡Agrega la primera!</p>
     {% endif %}
   </section>
 {% endblock %}
