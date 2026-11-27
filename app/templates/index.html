@@ -55,6 +55,13 @@
               <p class="texto">{{ item.texto }}</p>
               <div class="acciones">
                 <a class="boton-secundario" href="/?editar={{ item.id }}">Editar</a>
+                <form
+                  action="/notas/{{ item.id }}/eliminar"
+                  method="post"
+                  onsubmit="return confirm('¿Eliminar esta nota?');"
+                >
+                  <button type="submit" class="peligro">Eliminar</button>
+                </form>
               </div>
             </li>
           {% endif %}

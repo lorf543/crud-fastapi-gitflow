@@ -96,6 +96,15 @@ def editar_nota(request: Request, nota_id: int, texto: str = Form("")):
     return RedirectResponse(url="/", status_code=303)
 
 
+@app.post("/notas/{nota_id}/eliminar")
+def eliminar_nota(nota_id: int):
+    """Elimina una nota y vuelve al listado."""
+    if not crud.eliminar_nota(nota_id):
+        raise HTTPException(status_code=404, detail="La nota no existe.")
+
+    return RedirectResponse(url="/", status_code=303)
+
+
 @app.get("/salud")
 def salud() -> dict[str, str]:
     """Endpoint de verificación usado por monitoreo y pruebas."""
