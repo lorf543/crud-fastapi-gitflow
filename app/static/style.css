@@ -57,7 +57,8 @@ body {
   margin-top: 1.75rem;
 }
 
-.formulario input[type="text"] {
+.formulario input[type="text"],
+.form-edicion input[type="text"] {
   flex: 1;
   min-width: 0;
   padding: 0.65rem 0.85rem;
@@ -69,7 +70,8 @@ body {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.formulario input[type="text"]:focus {
+.formulario input[type="text"]:focus,
+.form-edicion input[type="text"]:focus {
   outline: none;
   border-color: var(--primario);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
@@ -154,6 +156,43 @@ button:focus-visible {
 .item .texto {
   margin: 0;
   word-break: break-word;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.boton-secundario {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primario);
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.boton-secundario:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+.form-edicion {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.item-editando {
+  background: #eef2ff;
+  border-color: #c7d2fe;
 }
 
 .vacio {
