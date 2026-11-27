@@ -114,3 +114,31 @@ def test_editar_con_texto_vacio_muestra_error() -> None:
 
     assert respuesta.status_code == 400
     assert "no puede estar vacío" in respuesta.text
+
+
+def test_el_listado_muestra_el_boton_de_eliminar() -> None:
+    cliente.post("/notas", data={"texto": "Descartable"})
+
+    pagina = cliente.get("/")
+
+    assert 'action="/notas/1/eliminar"' in pagina.text
+    assert "Eliminar" in pagina.text
+
+
+def test_eliminar_nota_la_quita_del_listado() -> None:
+    cliente.post("/notas", data={"texto": "Descartable"})
+
+    respuesta = cliente.post("/notas/1/eliminar", follow_redirects=False)
+
+    assert respuesta.status_code == 303
+    assert respuesta.headers["location"] == "/"
+
+    pagina = cliente.get("/")
+    assert "Descartable" not in pagina.text
+    assert "Todavía no hay notas. ¡Agrega la primera!" in pagina.text
+
+
+def test_eliminar_nota_inexistente_devuelve_404() -> None:
+    respuesta = cliente.post("/notas/999/eliminar", follow_redirects=False)
+
+    assert respuesta.status_code == 404
